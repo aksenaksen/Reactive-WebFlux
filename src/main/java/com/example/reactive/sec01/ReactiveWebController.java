@@ -18,8 +18,30 @@ public class ReactiveWebController {
             .baseUrl("http://localhost:7070")
             .build();
 
+//    @GetMapping("/products")
+//    public Flux<Product> getProducts(){
+//
+//        return webClient.get()
+//                .uri("/demo01/products")
+//                .retrieve()
+//                .bodyToFlux(Product.class)
+//                .doOnNext(o -> log.info("received: {}", o));
+//    }
+
     @GetMapping("/products")
     public Flux<Product> getProducts(){
+
+        return webClient.get()
+                .uri("/demo01/products/notorious")
+                .retrieve()
+                .bodyToFlux(Product.class)
+                .onErrorComplete()
+                .doOnNext(o -> log.info("received: {}", o));
+    }
+
+    @GetMapping(value = "/products/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<Product> getProductsStream(){
+
         return webClient.get()
                 .uri("/demo01/products")
                 .retrieve()
@@ -27,13 +49,6 @@ public class ReactiveWebController {
                 .doOnNext(o -> log.info("received: {}", o));
     }
 
-    @GetMapping(value = "/products/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<Product> getProductsStream(){
-        return webClient.get()
-                .uri("/demo01/products")
-                .retrieve()
-                .bodyToFlux(Product.class)
-                .doOnNext(o -> log.info("received: {}", o));
-    }
+
 
 }
