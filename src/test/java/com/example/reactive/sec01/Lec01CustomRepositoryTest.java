@@ -1,6 +1,7 @@
 package com.example.reactive.sec01;
 
 import com.example.reactive.AbstractTest;
+import com.example.reactive.sec02.domain.Customer;
 import com.example.reactive.sec02.infrastructor.CustomerRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -77,6 +78,53 @@ public class Lec01CustomRepositoryTest extends AbstractTest {
 
         //then
     }
+
+    @Test
+    @DisplayName("삽입 삭제 테스트")
+    void insertAndDeleteCustomerTest(){
+        //insert
+        var customer = new Customer();
+        customer.setName("moon");
+        customer.setEmail("moon@gmail.com");
+        customerRepository.save(customer)
+                .doOnNext(c -> log.info("{}",c))
+                .as(StepVerifier::create)
+                .assertNext(c -> Assertions.assertNotNull(customer.getId()))
+                .expectComplete()
+                .verify();
+        //when
+        customerRepository.count()
+                .as(StepVerifier::create)
+                .expectNext(11L)
+                .expectComplete()
+                .verify();
+
+//        delete
+        customerRepository.deleteById(11)
+                .then(customerRepository.count())
+                .as(StepVerifier::create)
+                .expectNext(10L)
+                .expectComplete()
+                .verify();
+    }
+
+    @Test
+    @DisplayName("")
+    void updateCustomer(){
+        //given
+        customerRepository.findByName("ethan")
+                .doOnNext(c -> c.setName("moon"))
+                .flatMap(c -> this.customerRepository.save(c))
+                .doOnNext(c -> log.info("{}",c))
+                .as(StepVerifier::create)
+                .assertNext(c -> Assertions.assertEquals("moon", c.getName()))
+                .expectComplete()
+                .verify();
+        //when
+
+        //then
+    }
+
 
 
 
