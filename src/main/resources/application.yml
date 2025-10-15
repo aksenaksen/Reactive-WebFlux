@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: reactive
+  sql:
+    init:
+      data-locations: classpath:sql/data.sql
+
+sec: sec01
