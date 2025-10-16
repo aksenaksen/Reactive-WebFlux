@@ -1,6 +1,8 @@
 package com.example.reactive.sec03.domain.infrastructor;
 
 import com.example.reactive.sec03.domain.Customer;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.r2dbc.repository.Modifying;
 import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
@@ -18,4 +20,6 @@ public interface CustomerRepository extends ReactiveCrudRepository<Customer, Int
     @Modifying
     @Query("delete from customer where id = :id")
     Mono<Boolean> deleteCustomerById(Integer id);
+
+    Flux<Customer> findBy(Pageable pageable);
 }

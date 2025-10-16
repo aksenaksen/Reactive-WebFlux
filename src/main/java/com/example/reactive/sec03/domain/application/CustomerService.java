@@ -3,6 +3,8 @@ package com.example.reactive.sec03.domain.application;
 import com.example.reactive.sec03.domain.dto.CustomerDto;
 import com.example.reactive.sec03.domain.infrastructor.CustomerRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -15,6 +17,11 @@ public class CustomerService {
 
     public Flux<CustomerDto> getAllCustomers(){
         return customerRepository.findAll()
+                .map(CustomerDto::fromEntity);
+    }
+
+    public Flux<CustomerDto> getAllCustomers(Integer page, Integer size){
+        return customerRepository.findBy(PageRequest.of(page - 1 , size))
                 .map(CustomerDto::fromEntity);
     }
 
@@ -41,5 +48,7 @@ public class CustomerService {
     public Mono<Boolean> delete(Integer id) {
         return customerRepository.deleteCustomerById(id);
     }
+
+
 
 }
