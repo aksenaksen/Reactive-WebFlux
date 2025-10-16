@@ -38,8 +38,8 @@ public class CustomerService {
                 .map(CustomerDto::fromEntity);
     }
 
-    public Mono<Void> delete(Integer id) {
-        return customerRepository.deleteById(id);
+    public Mono<Boolean> delete(Integer id) {
+        return customerRepository.deleteCustomerById(id);
     }
 
 }
