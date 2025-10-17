@@ -1,7 +1,7 @@
-package com.example.reactive.sec03.domain.presentation;
+package com.example.reactive.sec03.presentation;
 
-import com.example.reactive.sec03.domain.application.CustomerService;
-import com.example.reactive.sec03.domain.dto.CustomerDto;
+import com.example.reactive.sec03.application.CustomerService;
+import com.example.reactive.sec03.dto.CustomerDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

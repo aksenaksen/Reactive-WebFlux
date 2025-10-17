@@ -1,4 +1,4 @@
-package com.example.reactive.sec03.domain.infrastructor;
+package com.example.reactive.sec03.infrastructor;
 
 import com.example.reactive.sec03.domain.Customer;
 import org.springframework.data.domain.Page;

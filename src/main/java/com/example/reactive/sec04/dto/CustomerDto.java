@@ -1,6 +1,6 @@
-package com.example.reactive.sec03.domain.dto;
+package com.example.reactive.sec04.dto;
 
-import com.example.reactive.sec03.domain.Customer;
+import com.example.reactive.sec04.domain.Customer;
 
 public record CustomerDto(
         Integer id,
