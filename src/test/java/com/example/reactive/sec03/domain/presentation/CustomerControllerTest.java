@@ -1,6 +1,6 @@
 package com.example.reactive.sec03.domain.presentation;
 
-import com.example.reactive.sec03.domain.dto.CustomerDto;
+import com.example.reactive.sec03.dto.CustomerDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -10,8 +10,6 @@ import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWeb
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @AutoConfigureWebTestClient
 @SpringBootTest(properties = "sec=sec03")
