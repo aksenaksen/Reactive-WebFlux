@@ -5,9 +5,11 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ProblemDetail;
+import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientException;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
+import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 public class ErrorResponseTest extends AbstractWebClient{
@@ -55,5 +57,32 @@ public class ErrorResponseTest extends AbstractWebClient{
         //when
 
         //then
+    }
+
+    @Test
+    @DisplayName("")
+    void handlingErrorReturnErrorExchange(){
+        //given
+        webClient.get()
+                .uri("/lec05/calculator/{a}/{b}", 10, 20)
+                .header("operation" , "@")
+                .exchangeToMono(this::decode)
+                .doOnNext(print())
+                .then()
+                .as(StepVerifier::create)
+                .verifyComplete();
+        //when
+
+        //then
+    }
+
+    private Mono<CalculatorResponse> decode(ClientResponse response){
+        log.info("status code: {}", response.statusCode());
+        if(response.statusCode().is4xxClientError()){
+            return response.bodyToMono(ProblemDetail.class)
+                    .doOnNext(pd -> log.info("{}", pd))
+                    .then(Mono.empty());
+        }
+        return response.bodyToMono(CalculatorResponse.class);
     }
 }
